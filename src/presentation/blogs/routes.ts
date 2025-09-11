@@ -9,6 +9,7 @@ export class BlogsRoutes {
         const blogsController = new BlogsController();
             
         router.get( '/' , blogsController.getTodo );
+        router.post("/", blogsController.createBlog );
 
         return router;
     }
