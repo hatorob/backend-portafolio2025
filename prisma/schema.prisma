@@ -14,13 +14,50 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-model blogs {
+model Blogs {
   id         Int      @id @default(autoincrement())
   title      String   @db.VarChar(150)
   content    String   @db.Text
   desc_short String   @db.VarChar(255)
   slug       String   @db.VarChar(150)
   img        String   @db.VarChar(30)
+  Skills Skills[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model Projects {
+  id Int @id @default(autoincrement())
+  titule String @db.VarChar(100)
+  img String @db.VarChar(255)
+  url String @db.VarChar(255)
+  desc_short String @db.Text
+  Skills Skills[]
+}
+
+model Experiences {
+  id Int @id @default(autoincrement())
+  company String @db.VarChar(100)
+  desc_company String @db.VarChar(255)
+  rol String @db.VarChar(100)
+  area String @db.VarChar(100)
+  ExperiencesResponsabilities ExperiencesResponsabilities[]
+  Skills Skills[]
+  date_init DateTime
+  date_end DateTime?
+}
+
+model ExperiencesResponsabilities {
+  id Int @id @default(autoincrement())
+  experience_id Int 
+  text String @db.VarChar(255)
+  experiences Experiences @relation(fields: [experience_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Skills {
+  id Int @id @default(autoincrement())
+  text String @db.VarChar(100) @unique
+  experiences Experiences[]
+  projects Projects[]
+  blogs Blogs[]
 }

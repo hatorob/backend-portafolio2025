@@ -13,21 +13,43 @@ export class BlogsController {
     ) {}
 
 
-    public getTodo = (req: Request, res: Response) => {
-        res.json([
-            {id: 1, name: "hola"},
-            {id: 2, name: "hola"},
-            {id: 3, name: "hola"},
-        ])
+    public getBlogs = async(req: Request, res: Response) => {
+        try {
+            const blogs = await prisma.blogs.findMany({
+                include: {
+                    Skills: true
+                }
+            });
+            if(!blogs) throw new Error("not found blogs");
+            res.status(200).json(blogs)
+        } catch (error: any) {
+            res.status(400).json({
+                error: error.message
+            })
+        }
     }
 
     public createBlog = async( req: Request, res: Response) => {
-        const [ error, createBlogDto ] = CreateBlogDto.create(req.body);
-        if(error) return res.status(400).json({error});
-        const blog = await prisma.blogs.create({
-            data: createBlogDto!
-        });
-        res.status(200).json(blog);
+        try {
+            const [ error, createBlogDto ] = CreateBlogDto.create(req.body);
+            if(error) return res.status(400).json({error});
+            const { skills, ...data } = createBlogDto!;
+            const blog = await prisma.blogs.create({
+                data: {
+                    ...data,
+                    Skills: {
+                        connectOrCreate: skills.map( (skill:string) => ({
+                            where: { text: skill },
+                            create: { text: skill }
+                        }))
+                    }
+                }
+            });
+            console.log({blog});
+            res.status(201).json({message: "created blog"});
+        } catch (error) {
+            
+        }
     }
 
 }

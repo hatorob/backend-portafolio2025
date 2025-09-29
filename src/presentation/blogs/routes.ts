@@ -8,7 +8,7 @@ export class BlogsRoutes {
         const router = Router();
         const blogsController = new BlogsController();
             
-        router.get( '/' , blogsController.getTodo );
+        router.get( '/' , blogsController.getBlogs );
         router.post("/", blogsController.createBlog );
 
         return router;
