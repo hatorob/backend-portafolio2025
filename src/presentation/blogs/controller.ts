@@ -39,8 +39,8 @@ export class BlogsController {
                     ...data,
                     Skills: {
                         connectOrCreate: skills.map( (skill:string) => ({
-                            where: { text: skill },
-                            create: { text: skill }
+                            where: { text: skill.toLowerCase() },
+                            create: { text: skill.toLowerCase() }
                         }))
                     }
                 }
