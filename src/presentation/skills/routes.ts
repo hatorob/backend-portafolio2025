@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { SkillsController } from "./controller";
+import { authMiddleware } from "../../middleware/authMiddleware";
 
 
 export class SkillsRouter {
@@ -9,7 +10,7 @@ export class SkillsRouter {
         const skillsController = new SkillsController();
         
         router.get("/", skillsController.getSkills );
-        router.post("/", skillsController.createSkills );
+        router.post("/", authMiddleware, skillsController.createSkills );
 
         return router;
     }

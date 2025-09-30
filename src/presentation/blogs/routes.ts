@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { BlogsController } from "./controller";
+import { authMiddleware } from "../../middleware/authMiddleware";
 
 export class BlogsRoutes {
 
@@ -9,7 +10,7 @@ export class BlogsRoutes {
         const blogsController = new BlogsController();
             
         router.get( '/' , blogsController.getBlogs );
-        router.post("/", blogsController.createBlog );
+        router.post("/", authMiddleware, blogsController.createBlog );
 
         return router;
     }
