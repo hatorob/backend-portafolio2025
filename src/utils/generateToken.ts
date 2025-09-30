@@ -8,6 +8,6 @@ if (!JWT_SECRET) {
 
 export function generateToken(userId: number) {
   return jwt.sign({ id: userId }, JWT_SECRET as string, {
-    expiresIn: "5h",
+    expiresIn: "1h",
   });
 }
