@@ -4,7 +4,7 @@ import { SkillsRouter } from "./skills/routes";
 import { ExperiencesRouter } from "./experiences/routes";
 import { ProjectRoutes } from "./projects/routes";
 import { UsersRoutes } from "./users/routes";
-import { AuthRoutes } from "./auth/controller";
+import { AuthRoutes } from "./auth/router";
 
 
 export class AppRoutes {
